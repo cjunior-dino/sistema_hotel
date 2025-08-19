@@ -1,0 +1,120 @@
+# ================================================
+# Python / Django
+# ================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+
+# Virtualenv
+venv/
+env/
+ENV/
+.venv/
+.Python
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+static_root/
+local_settings.py
+
+# Migrations (opcional, caso queira ignorar)
+# */migrations/
+# !*/migrations/__init__.py
+
+# ================================================
+# Node / Angular
+# ================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnp.*
+.pnp.js
+.angular/
+.angular/cache/
+coverage/
+dist/
+tmp/
+out-tsc/
+
+# Compiled JS/TS
+*.tsbuildinfo
+
+# ================================================
+# Dart / Flutter
+# ================================================
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.flutter/
+.melos_tool/
+.fvm/
+
+# Android (Flutter)
+android/.gradle/
+android/captures/
+android/.idea/
+android/local.properties
+android/*.iml
+android/.gradle/
+android/app/*.keystore
+
+# iOS (Flutter)
+ios/.generated/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/.symlinks/
+ios/profile
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Web (Flutter)
+web/.dart_tool/
+
+# ================================================
+# IDEs / Editores
+# ================================================
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ================================================
+# SO / Arquivos temporários
+# ================================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+$RECYCLE.BIN/
+
+# ================================================
+# Outras configs
+# ================================================
+.env
+.env.*
+*.lock
