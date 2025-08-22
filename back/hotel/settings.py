@@ -63,6 +63,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+AUTH_USER_MODEL = "auth.User"
+
 ROOT_URLCONF = 'hotel.urls'
 
 TEMPLATES = [
