@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from accounts.models import User
 from hotel import settings
 
 
@@ -31,61 +32,11 @@ class ModelBase(models.Model):
         managed = True
 
 
-class Person(ModelBase):
-    name = models.CharField(
-        db_column='tx_name',
-        null=False,
-        max_length=140,
-        blank=False,
-    )
-    dt_birth = models.DateField(
-        db_column='dt_birth',
-        null=False,
-        blank=False,
-    )
-    cpf = models.CharField(
-        db_column='tx_cpf',
-        null=False,
-        unique=True,
-        max_length=11,
-    )
-    phone = models.CharField(
-        db_column='tx_phone',
-        null=False,
-        max_length=11,
-    )
-    email = models.EmailField(
-        db_column='tx_email',
-        null=False,
-        unique=True,
-        max_length=254,
-    )
-    class Meta:
-        abstract = True
-        managed = True
-
-
-class Client(Person):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="client_profile"
-    )
-
-    class Meta:
-        db_table = 'client'
-        verbose_name = 'Client'
-        verbose_name_plural = 'Clients'
-
-    def __str__(self):
-        return self.name
-
-
 class Room(ModelBase):
     class TypeRoom(models.IntegerChoices):
         SUITE = 1
         NORMAL = 2
-        PREMIUM =3
+        PREMIUM = 3
 
     daily_rate = models.DecimalField(
         db_column='nb_daily_rate',
@@ -97,6 +48,8 @@ class Room(ModelBase):
     capacity = models.IntegerField(
         db_column='nb_capacity',
         null=False,
+        blank=False,
+        validators=[MinValueValidator(1)],
     )
     type_room = models.IntegerField(
         db_column='cs_room_type',
@@ -104,7 +57,7 @@ class Room(ModelBase):
         default=TypeRoom.NORMAL,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         db_column='tx_description',
         max_length=255,
         null=False,
@@ -147,13 +100,19 @@ class Reservation(ModelBase):
     )
     room = models.ForeignKey(
         Room,
+        db_column='id_room',
         on_delete=models.PROTECT,
         related_name='reservations',
+        null=False,
+        blank=False,
     )
     client = models.ForeignKey(
-        Client,
+        User,
+        db_column='id_client',
         on_delete=models.PROTECT,
         related_name='reservations',
+        null=False,
+        blank=False,
     )
 
     class Meta:
@@ -185,6 +144,7 @@ class Position(ModelBase):
         null=False,
         max_digits=10,
         decimal_places=2,
+        blank=False,
         validators=[MinValueValidator(0)],
     )
 
@@ -193,6 +153,8 @@ class Position(ModelBase):
         max_digits=10,
         decimal_places=2,
         null=False,
+        blank=False,
+        validators=[MinValueValidator(0)],
     )
 
     class Meta:
@@ -204,27 +166,31 @@ class Position(ModelBase):
         return self.function
 
 
-class Employee(Person):
+class Employee(ModelBase):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="employee_profile"
+        related_name="employee_profile",
+        null=False,
+        blank=False,
     )
     salary = models.DecimalField(
         db_column='nb_salary',
         null=False,
         max_digits=10,
         decimal_places=2,
+        validators=[MinValueValidator(0)],
     )
 
     level = models.IntegerField(
         db_column='nb_level',
         null=False,
-        validators=[MaxValueValidator(10)],
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
     )
 
     position = models.ForeignKey(
         Position,
+        db_column='id_position',
         on_delete=models.PROTECT,
         null=False,
         related_name='employees',
@@ -236,13 +202,14 @@ class Employee(Person):
         verbose_name_plural = 'Employees'
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Check(ModelBase):
     class TypeCheck(models.IntegerChoices):
         CHECKIN = 1
         CHECKOUT = 2
+
     type = models.IntegerField(
         db_column='cs_type',
         choices=TypeCheck.choices,
@@ -251,12 +218,14 @@ class Check(ModelBase):
     )
     employee = models.ForeignKey(
         Employee,
+        db_column='id_employee',
         on_delete=models.PROTECT,
         null=False,
         related_name='checks',
     )
     reservation = models.ForeignKey(
         Reservation,
+        db_column='id_reservation',
         on_delete=models.PROTECT,
         null=False,
         related_name='checks',
@@ -268,7 +237,7 @@ class Check(ModelBase):
         verbose_name_plural = 'Checks'
 
     def __str__(self):
-        return f'Check {self.type} - {self.employee}'
+        return f'Check {self.type} | Reserva: {self.reservation} | Employee: {self.employee.name}'
 
 
 class Service(ModelBase):
@@ -289,7 +258,7 @@ class Service(ModelBase):
         choices=TypeService.choices,
         default=TypeService.OTHER,
         null=False,
-        max_length=40, )
+    )
     value = models.DecimalField(
         db_column='nb_value',
         null=False,
@@ -297,20 +266,22 @@ class Service(ModelBase):
         decimal_places=2,
         blank=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         db_column='tx_description',
         null=True,
         blank=True,
-        max_length=140,
+        max_length=240,
     )
     employee = models.ForeignKey(
         Employee,
+        db_column='id_employee',
         on_delete=models.PROTECT,
         null=False,
         related_name='services',
     )
     reservation = models.ForeignKey(
         Reservation,
+        db_column='id_reservation',
         on_delete=models.PROTECT,
         null=False,
         related_name='services',
@@ -324,17 +295,12 @@ class Service(ModelBase):
     def __str__(self):
         return f'Service {self.type} - {self.value}'
 
+
 class PaymentMethod(ModelBase):
-    class TypePaymentMethod(models.IntegerChoices):
-        CARTAO_DE_CREDITO = 1
-        DINHEIRO = 2
-        CARTAO_DE_DEBITO = 3
-        PIX = 4
-    method = models.IntegerField(
-        db_column='cs_method',
+    name = models.CharField(
+        db_column='tx_name',
+        max_length=128,
         null=False,
-        choices=TypePaymentMethod.choices,
-        default=TypePaymentMethod.DINHEIRO,
         blank=False,
     )
 
@@ -344,13 +310,13 @@ class PaymentMethod(ModelBase):
         verbose_name_plural = 'Payment_Methods'
 
     def __str__(self):
-        return f'Payment Method {self.method}'
+        return f'{self.name}'
 
 
 class Payment(ModelBase):
     class TypePayment(models.IntegerChoices):
-        HOSPEDAGEM = 1
-        SERVICO = 2
+        HOSTING = 1
+        SERVICE = 2
 
     total_payment = models.DecimalField(
         db_column='nb_total_payment',
@@ -362,9 +328,8 @@ class Payment(ModelBase):
     type = models.IntegerField(
         db_column='cs_type',
         null=False,
-        max_length=20,
         choices=TypePayment.choices,
-        default=TypePayment.HOSPEDAGEM,
+        default=TypePayment.HOSTING,
         blank=False,
     )
     discount = models.DecimalField(
@@ -375,14 +340,15 @@ class Payment(ModelBase):
         default=0,
     )
     value_payment = models.DecimalField(
-        db_column='fl_value_payment',
+        db_column='nb_value_payment',
         null=False,
         max_digits=10,
         decimal_places=2,
         blank=False,
     )
-    paymentmethod = models.ForeignKey(
+    payment_method = models.ForeignKey(
         PaymentMethod,
+        db_column='id_payment_method',
         on_delete=models.PROTECT,
         null=False,
         related_name='payments',
@@ -390,6 +356,7 @@ class Payment(ModelBase):
 
     employee = models.ForeignKey(
         Employee,
+        db_column='id_employee',
         on_delete=models.PROTECT,
         null=False,
         blank=False,
@@ -398,6 +365,7 @@ class Payment(ModelBase):
 
     reservation = models.ForeignKey(
         Reservation,
+        db_column='id_reservation',
         on_delete=models.PROTECT,
         null=False,
         blank=False,
@@ -411,4 +379,3 @@ class Payment(ModelBase):
 
     def __str__(self):
         return f'Payment {self.id} - {self.total_payment}'
-

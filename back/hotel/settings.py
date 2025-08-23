@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'core.apps.CoreConfig',
+    'accounts.apps.AccountsConfig',
     'django_filters',
     'corsheaders',
 ]
@@ -63,7 +64,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-AUTH_USER_MODEL = "auth.User"
+AUTH_USER_MODEL = 'accounts.User'
 
 ROOT_URLCONF = 'hotel.urls'
 
