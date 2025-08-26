@@ -2,8 +2,24 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, Group
 from django.db import models
 
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(
+        db_column='dt_created_at',
+        auto_now_add=True,
+        null=False,
+    )
+    modified_at = models.DateTimeField(
+        db_column='dt_modified_at',
+        auto_now=True,
+        null=False,
+    )
 
-class User(AbstractUser):
+    class Meta:
+        abstract = True
+        managed = True
+
+
+class User(AbstractUser, BaseModel):
     name = models.CharField(
         db_column='tx_name',
         null=False,
