@@ -92,24 +92,26 @@ class ServiceFilter(filters.FilterSet):
         fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']
 
 class PositionFilter(filters.FilterSet):
-    function = filters.CharFilter(field_name='function', lookup_expr='icontains')
-    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr='gte')
-    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr='lte')
+    function = filters.CharFilter(field_name='function', lookup_expr= ICONTAINS)
+    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
+    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
+
 
     class Meta:
         model = models.Position
         fields = ["function", "salary_min", "salary_max"]
 
 class EmployeeFilter(filters.FilterSet):
+    user = filters.CharFilter(field_name='user__name', lookup_expr=LIKE)
+    salary_min = filters.NumberFilter(field_name='salary', lookup_expr=GTE)
+    salary_max = filters.NumberFilter(field_name='salary', lookup_expr=LTE)
+    level = filters.NumberFilter(lookup_expr=EQUALS)
+    position = filters.CharFilter(field_name='position__function', lookup_expr=IN)
+
+
     class Meta:
         model = models.Employee
-        fields = {
-            "name": ["icontains"],        # busca por parte do nome
-            "cpf": ["exact"],             # cpf exato
-            "dt_birth": ["year__gte"],    # por ano de nascimento
-            "salary": ["gte", "lte"],     # faixa salarial
-            "position__title": ["icontains"], # busca pelo título da posição
-        }
+        fields = ["user", "salary_min", "salary_max", "level", "position"]
 
 class CheckFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
@@ -120,3 +122,5 @@ class CheckFilter(filters.FilterSet):
     class Meta:
         model = models.Check
         fields = ['id', 'type', 'employee', 'reservation']
+
+
