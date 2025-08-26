@@ -14,6 +14,11 @@ GTE = 'gte' # maior ou igual a
 LTE = 'lte' # menor ou igual a
 IN = 'in' # Usando in para trazer palavras que estão na lista
 
+class PositionFilter(filters.FilterSet):
+    function = filters.CharFilter(field_name='function', lookup_expr= ICONTAINS)
+    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
+    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
+
 class ReservationFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
     daily_value_min = filters.NumberFilter(field_name='daily_value',lookup_expr=LTE)
