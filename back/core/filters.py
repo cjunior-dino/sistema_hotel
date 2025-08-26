@@ -14,15 +14,6 @@ GTE = 'gte' # maior ou igual a
 LTE = 'lte' # menor ou igual a
 IN = 'in' # Usando in para trazer palavras que estão na lista
 
-class PositionFilter(filters.FilterSet):
-    function = filters.CharFilter(field_name='function', lookup_expr= ICONTAINS)
-    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
-    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
-
-    class Meta:
-        model = models.Position
-        fields = ['function', 'salary_min', 'salary_max']
-
 class ReservationFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
     daily_value_min = filters.NumberFilter(field_name='daily_value',lookup_expr=LTE)
@@ -101,17 +92,13 @@ class ServiceFilter(filters.FilterSet):
         fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']
 
 class PositionFilter(filters.FilterSet):
-  function = filters.CharFilter(field_name='function', lookup_expr='icontains')
-  salary_min = filters.CharFilter(field_name='salary_min', lookup_expr='icontains')
-  salary_max = filters.CharFilter(field_name='salary_max', lookup_expr='icontains')
+    function = filters.CharFilter(field_name='function', lookup_expr='icontains')
+    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr='gte')
+    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr='lte')
 
     class Meta:
         model = models.Position
-        fields = {
-            "function": ["icontains"],       # busca por parte do título
-            "salary_min": ["gte", "lte"], # maior/menor ou igual
-            "salary_max": ["gte", "lte"],
-        }
+        fields = ["function", "salary_min", "salary_max"]
 
 class EmployeeFilter(filters.FilterSet):
     class Meta:
