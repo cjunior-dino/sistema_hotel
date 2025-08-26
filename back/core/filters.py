@@ -1,22 +1,21 @@
 import django_filters
 from django_filters import rest_framework as filters
 
+from core import models
+
+
 class PositionFilter(filters.FilterSet):
-  function = filters.CharFilter(field_name='function', lookup_expr='icontains')
-  salary_min = filters.CharFilter(field_name='salary_min', lookup_expr='icontains')
-  salary_max = filters.CharFilter(field_name='salary_max', lookup_expr='icontains')
+    function = filters.CharFilter(field_name='function', lookup_expr='icontains')
+    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr='gte')
+    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr='lte')
 
     class Meta:
-        model = Position
-        fields = {
-            "function": ["icontains"],       # busca por parte do título
-            "salary_min": ["gte", "lte"], # maior/menor ou igual
-            "salary_max": ["gte", "lte"],
-        }
+        model = models.Position
+        fields = ["function", "salary_min", "salary_max"]
 
 class EmployeeFilter(filters.FilterSet):
     class Meta:
-        model = Employee
+        model = models.Employee
         fields = {
             "name": ["icontains"],        # busca por parte do nome
             "cpf": ["exact"],             # cpf exato

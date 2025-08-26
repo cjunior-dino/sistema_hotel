@@ -1,5 +1,4 @@
-
-from django.utils import migrations
+from django.db import migrations
 from rest_framework import filters
 
 
