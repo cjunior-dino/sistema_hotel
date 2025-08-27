@@ -58,3 +58,39 @@ class EmployeeFilter(filters.FilterSet):
     class Meta:
         model = models.Employee
         fields = ["user", "salary_min", "salary_max", "level", "position"]
+class RoomFilter(filters.FilterSet):
+    type_room = filters.ChoiceFilter(lookup_expr=EQUALS)
+
+    capacity = filters.NumberFilter(lookup_expr=EQUALS)
+    capacity_max = filters.NumberFilter(field_name='capacity',lookup_expr=GTE)
+    capacity_min = filters.NumberFilter(field_name='capacity',lookup_expr=LTE)
+    daily_rate = filters.NumberFilter(lookup_expr=GTE)
+    daily_rate_max = filters.NumberFilter(field_name='daily_rate',lookup_expr=GTE)
+    daily_rate_min = filters.NumberFilter(field_name='daily_rate',lookup_expr=LTE)
+
+    class Meta:
+        model = models.Room
+        fields = ['type_room', 'capacity', 'capacity_max', 'capacity_min', 'daily_rate', 'daily_rate_max']
+
+class ServiceFilter(filters.FilterSet):
+    type = filters.NumberFilter(lookup_expr=EQUALS)
+    type_in = filters.BaseInFilter(field_name='type', lookup_expr=IN)
+
+
+
+    value = filters.NumberFilter(lookup_expr=EQUALS)
+    value_lte = filters.NumberFilter(field_name='value', lookup_expr=LTE)
+    value_gte = filters.NumberFilter(field_name='value', lookup_expr=GTE)
+
+    description_service = filters.CharFilter(field_name='Service__description', lookup_expr=LIKE)
+    description_startswith = filters.CharFilter(field_name='Service__description', lookup_expr=ICONTAINS)
+
+    employee_id = filters.CharFilter(field_name='employee_id', lookup_expr=IN)
+
+    reservation_id = filters.CharFilter(field_name='reservation_id', lookup_expr=EQUALS)
+    reservation_dt_begin = filters.DateFilter(field_name='reservation_dt', lookup_expr=EQUALS)
+    reservation_dt_end = filters.DateFilter(field_name='reservation_dt', lookup_expr=EQUALS)
+
+    class Meta:
+        model = models.Service
+        fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']

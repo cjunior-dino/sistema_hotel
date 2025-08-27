@@ -28,3 +28,15 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PaymentSerializer
     filterset_class = filters.PaymentFilter
     permission_classes = [IsAuthenticated]
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = models.Employee.objects.all()
+    serializer_class = serializers.EmployeeSerializer
+    filterset_class = filters.EmployeeFilter
+    permission_classes = [IsAuthenticated]
+
+class PositionViewSet(viewsets.ModelViewSet):
+    queryset = models.Position.objects.all()
+    serializer_class = serializers.PositionSerializer
+    filterset_class = filters.PositionFilter
+    permission_classes = [IsAuthenticated]
