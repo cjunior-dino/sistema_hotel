@@ -43,22 +43,19 @@ class PaymentFilter(filters.FilterSet):
         fields = ['total_payment_min', 'total_payment_max', 'employee', 'type', 'payment_method', 'reservation']
 
 class RoomFilter(filters.FilterSet):
-    type_room = filters.NumberFilter(lookup_expr=EQUALS)
-    type_room_in = filters.BaseInFilter(field_name='type_room', lookup_expr=IN)
+    type_room = filters.ChoiceFilter(lookup_expr=EQUALS)
 
-    description = filters.CharFilter(lookup_expr=LIKE)
-    description_startswith = filters.CharFilter(field_name='description', lookup_expr=ICONTAINS)
-
-    capacity = filters.NumberFilter(lookup_expr=GTE)
-    capacity_in = filters.NumberFilter(field_name='capacity',lookup_expr=LTE)
+    capacity = filters.NumberFilter(lookup_expr=EQUALS)
+    capacity_max = filters.NumberFilter(field_name='capacity',lookup_expr=GTE)
+    capacity_min = filters.NumberFilter(field_name='capacity',lookup_expr=LTE)
 
     daily_rate = filters.NumberFilter(lookup_expr=GTE)
-    daily_rate_lte = filters.NumberFilter(field_name='daily_rate',lookup_expr=LTE)
+    daily_rate_max = filters.NumberFilter(field_name='daily_rate',lookup_expr=GTE)
+    daily_rate_min = filters.NumberFilter(field_name='daily_rate',lookup_expr=LTE)
 
     class Meta:
         model = models.Room
-        fields = ['type_room', 'type_room_in', 'description', 'description_startswith', 'capacity', 'capacity_in','daily_rate', 'daily_rate_lte']
-
+        fields = ['type_room', 'capacity', 'capacity_max', 'capacity_min', 'daily_rate', 'daily_rate_max']
 
 class ServiceFilter(filters.FilterSet):
     type = filters.NumberFilter(lookup_expr=EQUALS)
@@ -80,4 +77,4 @@ class ServiceFilter(filters.FilterSet):
 
     class Meta:
         model = models.Service
-        fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte','description_service', 'description_startswith','employee_id', 'reservation_id', 'reservation_dt_begin', 'reservation_dt_end']
+        fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']

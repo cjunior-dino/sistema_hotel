@@ -3,11 +3,15 @@ from rest_framework import serializers
 from core import models
 
 
-class ClientSerializer(serializers.ModelSerializer):
+class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Client
+        model = models.Reservation
         fields = '__all__'
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Payment
+        fields = '__all__'
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,3 +22,4 @@ class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Service
         fields = '__all__'
+
