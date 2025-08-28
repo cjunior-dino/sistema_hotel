@@ -38,3 +38,8 @@ class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Position
         fields = '__all__'
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PaymentMethod
+        fields = '__all__'

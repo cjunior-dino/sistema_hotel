@@ -100,28 +100,6 @@ class ServiceFilter(filters.FilterSet):
         model = models.Service
         fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']
 
-class PositionFilter(filters.FilterSet):
-    function = filters.CharFilter(field_name='function', lookup_expr= ICONTAINS)
-    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
-    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
-
-
-    class Meta:
-        model = models.Position
-        fields = ["function", "salary_min", "salary_max"]
-
-class EmployeeFilter(filters.FilterSet):
-    user = filters.CharFilter(field_name='user__name', lookup_expr=LIKE)
-    salary_min = filters.NumberFilter(field_name='salary', lookup_expr=GTE)
-    salary_max = filters.NumberFilter(field_name='salary', lookup_expr=LTE)
-    level = filters.NumberFilter(lookup_expr=EQUALS)
-    position = filters.CharFilter(field_name='position__function', lookup_expr=IN)
-
-
-    class Meta:
-        model = models.Employee
-        fields = ["user", "salary_min", "salary_max", "level", "position"]
-
 class CheckFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
     type = filters.ChoiceFilter(lookup_expr=EQUALS)
@@ -133,3 +111,9 @@ class CheckFilter(filters.FilterSet):
         fields = ['id', 'type', 'employee', 'reservation']
 
 
+class PaymentMethodFilter(filters.FilterSet):
+    name = filters.CharFilter(lookup_expr=LIKE)
+
+    class Meta:
+        model = models.PaymentMethod
+        fields = ['name']

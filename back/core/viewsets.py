@@ -46,3 +46,9 @@ class CheckViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CheckSerializer
     filterset_class = filters.CheckFilter
     permission_classes = [IsAuthenticated]
+
+class PaymentMethodViewSet(viewsets.ModelViewSet):
+    queryset = models.PaymentMethod.objects.all()
+    serializer_class = serializers.PaymentMethodSerializer
+    filterset_class = filters.PaymentMethodFilter
+    permission_classes = [IsAuthenticated]
