@@ -19,6 +19,10 @@ class PositionFilter(filters.FilterSet):
     salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
     salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
 
+    class Meta:
+        model = models.Position
+        fields = ['function', 'salary_min', 'salary_max']
+
 class ReservationFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
     daily_value_min = filters.NumberFilter(field_name='daily_value',lookup_expr=LTE)
@@ -58,6 +62,7 @@ class EmployeeFilter(filters.FilterSet):
     class Meta:
         model = models.Employee
         fields = ["user", "salary_min", "salary_max", "level", "position"]
+
 class RoomFilter(filters.FilterSet):
     type_room = filters.ChoiceFilter(lookup_expr=EQUALS)
 
