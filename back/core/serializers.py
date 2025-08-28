@@ -28,6 +28,12 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = models.Employee
         fields = '__all__'
 
+class CheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Check
+        fields = '__all__'
+
+
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Position

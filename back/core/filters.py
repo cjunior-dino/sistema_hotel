@@ -99,3 +99,13 @@ class ServiceFilter(filters.FilterSet):
     class Meta:
         model = models.Service
         fields = ['type', 'type_in', 'value', 'value_lte', 'value_gte']
+
+class CheckFilter(filters.FilterSet):
+    id = filters.NumberFilter(lookup_expr=EQUALS)
+    type = filters.ChoiceFilter(lookup_expr=EQUALS)
+    employee = filters.CharFilter(field_name='employee__user__name', lookup_expr=LIKE)
+    reservation = filters.NumberFilter(field_name='reservation__id',lookup_expr=EQUALS)
+
+    class Meta:
+        model = models.Check
+        fields = ['id', 'type', 'employee', 'reservation']

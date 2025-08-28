@@ -40,3 +40,9 @@ class PositionViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PositionSerializer
     filterset_class = filters.PositionFilter
     permission_classes = [IsAuthenticated]
+
+class CheckViewSet(viewsets.ModelViewSet):
+    queryset = models.Check.objects.all()
+    serializer_class = serializers.CheckSerializer
+    filterset_class = filters.CheckFilter
+    permission_classes = [IsAuthenticated]
