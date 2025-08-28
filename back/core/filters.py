@@ -14,6 +14,11 @@ GTE = 'gte' # maior ou igual a
 LTE = 'lte' # menor ou igual a
 IN = 'in' # Usando in para trazer palavras que estão na lista
 
+class PositionFilter(filters.FilterSet):
+    function = filters.CharFilter(field_name='function', lookup_expr= ICONTAINS)
+    salary_min = filters.NumberFilter(field_name='salary_min', lookup_expr= GTE)
+    salary_max = filters.NumberFilter(field_name='salary_max', lookup_expr= LTE)
+
 class ReservationFilter(filters.FilterSet):
     id = filters.NumberFilter(lookup_expr=EQUALS)
     daily_value_min = filters.NumberFilter(field_name='daily_value',lookup_expr=LTE)
@@ -41,7 +46,18 @@ class PaymentFilter(filters.FilterSet):
     class Meta:
         model = models.Payment
         fields = ['total_payment_min', 'total_payment_max', 'employee', 'type', 'payment_method', 'reservation']
-        
+
+class EmployeeFilter(filters.FilterSet):
+    user = filters.CharFilter(field_name='user__name', lookup_expr=LIKE)
+    salary_min = filters.NumberFilter(field_name='salary', lookup_expr=GTE)
+    salary_max = filters.NumberFilter(field_name='salary', lookup_expr=LTE)
+    level = filters.NumberFilter(lookup_expr=EQUALS)
+    position = filters.CharFilter(field_name='position__function', lookup_expr=IN)
+
+
+    class Meta:
+        model = models.Employee
+        fields = ["user", "salary_min", "salary_max", "level", "position"]
 class RoomFilter(filters.FilterSet):
     type_room = filters.ChoiceFilter(lookup_expr=EQUALS)
 

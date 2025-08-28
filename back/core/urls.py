@@ -8,4 +8,9 @@ router.register('services', viewsets.ServiceViewSet)
 router.register('reservation', viewsets.ReservationViewSet)
 router.register('payment',viewsets.PaymentViewSet)
 
+router.register('Employee', viewsets.EmployeeViewSet)
+
+router.register('Position', viewsets.PositionViewSet)
+
+
 urlpatterns = router.urls
