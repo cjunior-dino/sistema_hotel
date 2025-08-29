@@ -7,8 +7,7 @@ from core import models, serializers, filters
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = models.Service.objects.all()
     serializer_class = serializers.ServiceSerializer
-    filterset_class = filters.ServiceFilter
-    permission_classes = [IsAuthenticated]
+    filterset_class = filters.ServiceFilte
 
 
 class RoomViewSet(viewsets.ModelViewSet):
