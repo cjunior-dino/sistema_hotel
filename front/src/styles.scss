@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use 'primeflex/primeflex';
+
+$theme: mat.define-theme((
+    color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$blue-palette,
+    )
+));
+
+@include mat.core();
+@include mat.color-variants-backwards-compatibility($theme);
+
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin: 0;
+    height: 100%;
+
+    @include mat.all-component-themes($theme);
+}
+
+html {
+    height: 100%;
+}
+
+table {
+    width: 100%;
+
+    .mat-mdc-header-cell {
+        font-weight: bold !important;
+        background: #3d7a90 !important;
+        color: #1e1f22 !important;
+    }
+}
+
+.menu {
+    background-color: #3d7a90 !important;
+    color: #1e1f22 !important;
+}
+
+.menu-btn:not(:disabled) {
+    color: #1e1f22  !important;
+}
+
+.menu-btn-active:not(:disabled) {
+    background-color: #1e1f22  !important;
+    color: #3d7a90 !important;
+}
+
+.btn-default:not(:disabled) {
+    background-color: #3d7a90 !important;
+    color: #1e1f22  !important;
+}
+
