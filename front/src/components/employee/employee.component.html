@@ -1,0 +1,53 @@
+
+<mat-card class = "m-5 p-3 shadow-6" appearance="outlined" >
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Código </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modified_at">
+            <th mat-header-cell *matHeaderCellDef> Modificado em </th>
+            <td mat-cell *matCellDef="let element"> {{element.modified_at | date:"dd/MM/YYYY hh:mm"}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef> Criado em </th>
+            <td mat-cell *matCellDef="let element"> {{element.created_at | date:"dd/MM/YYYY hh:mm"}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef> Ativo </th>
+            <td mat-cell *matCellDef="let element">
+            <span class= "badge"
+                  [ngClass]= "{'badge-success': element.active,'badge-danger': !element.active }">
+                {{element.active ? 'Sim' : 'Não'}}
+            </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="salary">
+            <th mat-header-cell *matHeaderCellDef> Salário </th>
+            <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef> Tipo de quarto </th>
+            <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> Posição </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+</mat-card>
+
+

@@ -3,7 +3,7 @@
 
 $theme: mat.define-theme((
     color: (
-        theme-type: dark,
+        theme-type: light,
         primary: mat.$cyan-palette,
         tertiary: mat.$blue-palette,
     )
@@ -31,7 +31,7 @@ table {
     .mat-mdc-header-cell {
         font-weight: bold !important;
         background: #3d7a90 !important;
-        color: #1e1f22 !important;
+        color: #eeeff3 !important;
     }
 }
 

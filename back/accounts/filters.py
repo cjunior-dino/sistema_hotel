@@ -1,4 +1,4 @@
-from django_filters import rest_framework as filters
+from django_filters import rest_framework as df_filters
 
 from accounts import models
 
@@ -14,16 +14,16 @@ GTE = 'gte' # maior ou igual a
 LTE = 'lte' # menor ou igual a
 IN = 'in' # Usando in para trazer palavras que estão na lista
 
-class UserFilter(filters.FilterSet):
-    name = filters.CharFilter(lookup_expr=LIKE)
-    id = filters.NumberFilter(lookup_expr=EQUALS)
-    dt_birth = filters.DateFilter(lookup_expr=IN)
-    email = filters.CharFilter(lookup_expr=ICONTAINS)
-    phone = filters.CharFilter(lookup_expr=ICONTAINS)
-    cpf = filters.CharFilter(lookup_expr=ICONTAINS)
-    active = filters.BooleanFilter(lookup_expr=EQUALS)
-    created_at = filters.DateFilter(lookup_expr=GTE)
-    modified_at = filters.DateFilter(lookup_expr=GTE)
+class UserFilter(df_filters.FilterSet):
+    name = df_filters.CharFilter(lookup_expr=LIKE)
+    id = df_filters.NumberFilter(lookup_expr=EQUALS)
+    dt_birth = df_filters.DateFilter(lookup_expr=IN)
+    email = df_filters.CharFilter(lookup_expr=ICONTAINS)
+    phone = df_filters.CharFilter(lookup_expr=ICONTAINS)
+    cpf = df_filters.CharFilter(lookup_expr=ICONTAINS)
+    active = df_filters.BooleanFilter(lookup_expr=EQUALS)
+    created_at = df_filters.DateFilter(lookup_expr=GTE)
+    modified_at = df_filters.DateFilter(lookup_expr=GTE)
 
     class Meta:
         model = models.User

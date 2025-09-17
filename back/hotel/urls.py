@@ -28,6 +28,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
 
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-
-    path('auth/token/refresh/', TokenObtainPairView.as_view(), name='token_refresh'),
+    #
+    # path('auth/token/refresh/', TokenObtainPairView.as_view(), name='token_refresh'),
 ]
