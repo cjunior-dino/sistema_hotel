@@ -3,22 +3,30 @@
     <div class="flex gap-3">
         <form [formGroup]="formGroup">
             <div class="flex gap-3">
-                <mat-form-field>
-                    <mat-label>Código</mat-label>
-                    <input matInput placeholder="Pesquise por código.." formControlName="id">
-                </mat-form-field>
+                <form [formGroup]="formGroup">
+                    <div class="flex gap-3">
+                        <mat-form-field>
+                            <mat-label>Código</mat-label>
+                            <input matInput placeholder="Pesquise por código.." formControlName="id">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Descrição</mat-label>
+                            <input matInput placeholder="Pesquise por descrição.." formControlName="description">
+                        </mat-form-field>
 
-                <button mat-fab (click)="search()">
-                    <mat-icon>search</mat-icon>
-                </button>
+                        <button mat-fab (click)="search()">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+                </form>
+
             </div>
-         </form>
-
-<!--        <button mat-fab color="primary" (click)="goToPage('room/create/')">-->
-<!--            <mat-icon>add</mat-icon>-->
-<!--        </button>-->
-
+        </form>
+        <button mat-fab color="primary" (click)="goToPage('room/create/')">
+            <mat-icon>add</mat-icon>
+        </button>
     </div>
+
 
 
     <table mat-table [dataSource]="dataSource">
@@ -33,9 +41,9 @@
                         <button mat-icon-button aria-label="Delete" (click)="delete(element?.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
-<!--                        <button mat-icon-button aria-label="Editar" (click)= "goToPage('room/' + element?.id)">-->
-<!--                            <mat-icon>edit</mat-icon>-->
-<!--                        </button>-->
+                        <button mat-icon-button aria-label="Editar" (click)= "goToPage('room/' + element?.id)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
 

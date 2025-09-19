@@ -1,45 +1,82 @@
-import {Directive, InjectionToken, Injector, OnInit} from '@angular/core';
+// import {Directive, Injector, OnInit} from '@angular/core';
+// import {MatTableDataSource} from "@angular/material/table";
+// import {DialogDeleteConfirmComponent} from "../dialog-delete-confirm/dialog-delete-confirm.component";
+// import {MatDialog} from "@angular/material/dialog";
+// import {BaseComponentDirective} from './base-component.directive';
+//
+// export interface BaseComponentOptions {
+//     endpoint: string;
+// }
+//
+// @Directive()
+// export abstract class BaseComponentListDirective<T> extends BaseComponentDirective<T> implements OnInit {
+//     public dataSource: MatTableDataSource<T>;
+//     public dialog: MatDialog;
+//
+//
+//     protected constructor(injector: Injector, options: BaseComponentOptions) {
+//         super(injector, options);
+//         this.dialog = injector.get(MatDialog);
+//         this.dataSource = new MatTableDataSource<T>([]);
+//     }
+//
+//     public override ngOnInit(): void {
+//         super.ngOnInit();
+//         this.search();
+//     }
+//
+//     public search(): void {
+//         this.service.getAll().subscribe((data: T[]) => {
+//             this.dataSource = new MatTableDataSource(data);
+//         });
+//     }
+//
+//     public delete(id: number): void {
+//         this.dialog.open(DialogDeleteConfirmComponent)
+//             .afterClosed()
+//             .subscribe((result: boolean) => {
+//                 if (result) {
+//                     this.service.delete(id)
+//                         .subscribe({
+//                             next: () => {
+//                                 this.toast.success('Deletado com sucesso!', 'Sucesso');
+//                             },
+//                             error: (err) => {
+//                                 this.toast.error(err?.error?.message ?? 'Erro ao deletar', 'Error');
+//                             },
+//                             complete: () => {
+//                                 this.search()
+//                             }
+//                         });
+//                 }
+//             });
+//     }
+// }
+import {Directive, Injector, OnInit} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {BaseService} from "../service/base.service";
 import {DialogDeleteConfirmComponent} from "../dialog-delete-confirm/dialog-delete-confirm.component";
-import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {BaseComponentDirective} from './base-component.directive';
 
 export interface BaseComponentOptions {
     endpoint: string;
 }
 
 @Directive()
-export abstract class BaseComponentListDirective<T> implements OnInit {
+export abstract class BaseComponentListDirective<T> extends BaseComponentDirective<T> implements OnInit {
     public dataSource: MatTableDataSource<T>;
-    public service: BaseService<T>;
-    public http: HttpClient;
     public dialog: MatDialog;
-    public formBuilder: FormBuilder;
-    public formGroup: FormGroup;
 
-    protected constructor(public injector: Injector, public options: BaseComponentOptions) {
-        this.http = this.injector.get(HttpClient);
-        this.dialog = this.injector.get(MatDialog);
-        this.formBuilder = injector.get(FormBuilder);
-        this.service = this.injector.get(this.serviceToken());
+    protected constructor(injector: Injector, public options: BaseComponentOptions) {
+        super(injector, options.endpoint);
+        this.dialog = injector.get(MatDialog);
         this.dataSource = new MatTableDataSource<T>([]);
     }
 
-    public serviceToken(): InjectionToken<BaseService<T>>{
-        return new InjectionToken<BaseService<T>>(`service_${this.options.endpoint}`, {
-            providedIn: 'root',
-            factory: () => new BaseService<T>(this.http, this.options.endpoint)
-        });
-    }
-
-    public ngOnInit(): void {
-        this.createFormGroup();
+    public override ngOnInit(): void {
+        super.ngOnInit();
         this.search();
     }
-
-    public abstract createFormGroup(): void;
 
     public search(): void {
         this.service.getAll().subscribe((data: T[]) => {
@@ -53,10 +90,20 @@ export abstract class BaseComponentListDirective<T> implements OnInit {
             .subscribe((result: boolean) => {
                 if (result) {
                     this.service.delete(id)
-                        .subscribe(() => {
-                            this.search();
-                        });
+                        .subscribe({
+                                next: () => {
+                                    this.toast.success('Deletado com sucesso', 'Sucesso');
+                                },
+                                error: (err) => {
+                                    this.toast.error(err?.error?.message ?? 'Erro ao deletar', 'Erro');
+                                },
+                                complete: () => {
+                                    this.search();
+                                }
+                            }
+                        );
                 }
             });
     }
+
 }

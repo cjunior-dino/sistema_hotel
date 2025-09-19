@@ -8,4 +8,5 @@ export class Employee extends ModelBase {
 salary?: number;
 level?: number;
 position?: number | string | Position;
+// user?: number | string | User;
 }

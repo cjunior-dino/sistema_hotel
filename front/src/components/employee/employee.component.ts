@@ -1,59 +1,69 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {DatePipe, formatCurrency, NgClass} from '@angular/common';
+import {Component, Injector} from '@angular/core';
+import {
+    MatCell, MatCellDef,
+    MatColumnDef,
+    MatHeaderCell, MatHeaderCellDef,
+    MatHeaderRow, MatHeaderRowDef,
+    MatRow, MatRowDef,
+    MatTable,
+    MatTableModule
+} from '@angular/material/table';
+import {DatePipe, NgClass} from '@angular/common';
 import {MatCard} from '@angular/material/card';
-import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
-import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import {Room} from '../../shared/models/room';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {BaseComponentListDirective, BaseComponentOptions} from '../../shared/directive/base-component-list.directive';
+import {URLS} from '../../app/routes-api';
+import {FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {BaseComponentDetailOptions} from '../../shared/directive/base-component-detail.directive';
 import {Employee} from '../../shared/models/employee';
 
-
-// const ELEMENT_DATA: Employee[] = [
-//     {id: 1, position: 'nivel1', created_at: new Date(), modified_at: new Date(), active: true},
-//     {id: 2, position: 'nivel2', created_at: new Date(), modified_at: new Date(), active: true},
-//     {id: 3, position: 'nivel3', created_at: new Date(), modified_at: new Date(), active: true},
-//
-// ];
-
+const BASE_OPTIONS: BaseComponentDetailOptions = {
+    endpoint: URLS.EMPLOYEE,
+    retrieveOnInit: true,
+    nextRouter:'/employee'
+}
 @Component({
-  selector: 'app-employee',
+    selector: 'app-employee',
     imports: [
         MatTableModule,
         NgClass,
         MatCard,
         DatePipe,
-        MatTable,
-
+        MatIconModule,
+        MatButtonModule,
+        FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule
     ],
-  templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss'
+
+    templateUrl: './employee.component.html',
+    styleUrl: './employee.component.scss',
+    standalone: true
 })
 
+export class EmployeeComponent extends BaseComponentListDirective<Employee>{
+    public displayedColumns: string[] = ['id','salary', 'level','position','created_at','modified_at','active','actions']
 
-export class EmployeeComponent implements OnInit {
-//export class EmployeeComponent {
-    public displayedColumns: string[] = ['id','created_at','modified_at','active','salary','level','position'];
-    public dataSource :MatTableDataSource<Employee>= new MatTableDataSource();
-    //public dataSource = new MatTableDataSource(ELEMENT_DATA);
-    protected readonly formatCurrency = formatCurrency;
-
-    constructor(public http: HttpClient) {
+    constructor(
+        injector: Injector
+    ) {
+        super(injector, BASE_OPTIONS);
     }
 
-    public ngOnInit() {
-        this.getEmployee();
+    public createFormGroup():void {
+        this.formGroup = this.formBuilder.group({
+            id: [null, Validators.required],
+            salary: [null, Validators.required],
+        });
     }
 
-    public getEmployee(): void {
-        this.http.get<Employee[]>('http://localhost:8000/core/employee/')
-            .subscribe((data: Employee[]) => {
-                this.dataSource = new MatTableDataSource(data);
-            });
+    public override search() {
+        this.service.clearParameter();
+        this.service.addParameter('id', this.formGroup.get('id')?.value ?? '');
+        this.service.addParameter('salary', this.formGroup.get('salary')?.value ?? '');
+        super.search();
     }
-
-    // public deleteRoom(id: number) {
-    //
-    // }
-
 
 }

@@ -1,0 +1,56 @@
+<mat-card appearance="outlined" class="flex flex-column m-5 p-3" >
+    @if (object?.id) {
+        <h4>EDITAR SERVIÇO</h4>
+    } @else {
+        <h4>CRIAR SERVIÇO</h4>
+    }
+
+    <form [formGroup]="formGroup">
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>TIPO DO SERVIÇO</mat-label>
+                <input matInput placeholder="Digite o tipo do serviço.." formControlName="type">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>VALOR DO SERVIÇO</mat-label>
+                <input matInput placeholder="Digite o valor do serviço.." formControlName="value">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>DESCRIÇÃO DO SERVIÇO</mat-label>
+                <input matInput placeholder="Digite a descrição do serviço.." formControlName="description">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>FUNCIONÁRIO DO SERVIÇO</mat-label>
+                <input matInput placeholder="Informe o funcionário.." formControlName="employee">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>RESERVA DO SERVIÇO</mat-label>
+                <input matInput placeholder="Digite a reserva.." formControlName="reservation">
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-row justify-content-end gap-3 mt-3">
+            <button mat-raised-button color="warn" (click)="goToPage('/service')">
+                Voltar
+            </button>
+            <button mat-raised-button color="primary" (click)="saveOrUpdateForm()" [disabled]="formGroup.invalid">
+                Salvar
+            </button>
+
+            <!--            <button mat-raised-button color="warn" (click)="cancel()">-->
+            <!--                Cancelar-->
+            <!--            </button>-->
+        </div>
+
+    </form>
+
+</mat-card>
+
