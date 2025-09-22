@@ -6,6 +6,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions} from '@angul
 import {provideHttpClient} from '@angular/common/http';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideClientHydration} from '@angular/platform-browser';
+import {provideToastr} from 'ngx-toastr';
 
 const  appearance : MatFormFieldDefaultOptions = {
     appearance: 'outline'
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(),
         provideAnimations(),
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: appearance},
+        provideToastr()
     ]
 
 };

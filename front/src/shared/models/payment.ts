@@ -1,7 +1,7 @@
 import {ModelBase} from './model-base';
 import {Reservation} from './reservation';
 import {Employee} from './employee';
-import {PaymentMethod} from './paymentMethod';
+import {PaymentMethod} from './payment-method';
 
 export class Payment extends ModelBase{
     //TypePayment?: number; verificar a necessidade de ser incluido ou não esse Choice e o tipo do mesmo

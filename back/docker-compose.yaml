@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:14
     environment:
-      - POSTGRES_DB=aulademo
+      - POSTGRES_DB=hotel
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=fpf2023
     ports:

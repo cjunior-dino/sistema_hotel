@@ -1,0 +1,44 @@
+<mat-card appearance="outlined" class="flex flex-column m-5 p-3" >
+    @if (object?.id) {
+        <h4>EDITAR POSIÇÃO</h4>
+    } @else {
+        <h4>CRIAR POSIÇÃO</h4>
+    }
+
+    <form [formGroup]="formGroup">
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>FUNÇÃO DO COLABORADOR</mat-label>
+                <input matInput placeholder="Digite a função do funcionário.." formControlName="function">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>MÁXIMO SALÁRIO</mat-label>
+                <input matInput placeholder="Digite a valor máximo do salário da função..." formControlName="max_salary">
+            </mat-form-field>
+        </div>
+        <div class="flex flex-column gap-3">
+            <mat-form-field>
+                <mat-label>MÍNIMO SALÁRIO</mat-label>
+                <input matInput placeholder="Digite a valor mínimo do salário da função.." formControlName="min_salary">
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-row justify-content-end gap-3 mt-3">
+            <button mat-raised-button color="warn" (click)="goToPage('/position')">
+                Voltar
+            </button>
+            <button mat-raised-button color="primary" (click)="saveOrUpdateForm()" [disabled]="formGroup.invalid">
+                Salvar
+            </button>
+
+            <!--            <button mat-raised-button color="warn" (click)="cancel()">-->
+            <!--                Cancelar-->
+            <!--            </button>-->
+        </div>
+
+    </form>
+
+</mat-card>
+

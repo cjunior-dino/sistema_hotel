@@ -18,15 +18,22 @@ interface Menu {
 })
 export class AppComponent {
     public menuList: Menu[] = [
-        {title:'Reserva', route:'/reservation', isCurrent:false},
-        {title:'Quarto', route:'/room', isCurrent:false},
-        {title:'Funcionário', route:'/employee', isCurrent:false},
+        {title:'Usuários', route:'/users', isCurrent:false},
+        {title:'Reservas', route:'/reservation', isCurrent:false},
+        {title:'Quartos', route:'/room', isCurrent:false},
+        {title:'Serviços', route:'/service', isCurrent:false},
+        {title:'Funcionários', route:'/employee', isCurrent:false},
+        {title:'Cargos', route:'/position', isCurrent:false},
+        {title:'Check-in', route:'/check', isCurrent:false},
+        {title:'Pagamentos', route:'/payment', isCurrent:false},
+        {title:'Metodos de pagamentos', route:'/payment-method', isCurrent:false},
+
 
     ]
 
     public router: Router = new Router();
     constructor() {
-        this.changeMenu(this.menuList[0]);
+        this.menuList[0].isCurrent = true;
     }
 
     public changeMenu(item: Menu) {

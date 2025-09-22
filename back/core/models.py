@@ -76,18 +76,20 @@ class Room(ModelBase):
 class Reservation(ModelBase):
     daily_value = models.DecimalField(
         db_column='nb_daily_value',
-        null=False,
+        null=True,
         max_digits=10,
         decimal_places=2,
-        blank=False,
+        blank=True,
+        default=0,
         validators=[MinValueValidator(0)],
     )
     total_value = models.DecimalField(
         db_column='nb_total_value',
-        null=False,
+        null=True,
         max_digits=10,
         decimal_places=2,
-        blank=False,
+        blank=True,
+        default=0,
         validators=[MinValueValidator(0)],
     )
     dt_begin = models.DateField(

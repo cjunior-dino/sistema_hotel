@@ -1,10 +1,11 @@
 @use '@angular/material' as mat;
 @use 'primeflex/primeflex';
+@use "ngx-toastr/toastr";
 
 $theme: mat.define-theme((
     color: (
-        theme-type: dark,
-        primary: mat.$cyan-palette,
+        theme-type: light,
+        primary: mat.$green-palette,
         tertiary: mat.$blue-palette,
     )
 ));
@@ -30,13 +31,13 @@ table {
 
     .mat-mdc-header-cell {
         font-weight: bold !important;
-        background: #3d7a90 !important;
-        color: #1e1f22 !important;
+        background: #43903d !important;
+        color: #eeeff3 !important;
     }
 }
 
 .menu {
-    background-color: #3d7a90 !important;
+    background-color: #43903d !important;
     color: #1e1f22 !important;
 }
 
